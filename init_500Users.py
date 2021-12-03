@@ -6,7 +6,7 @@ from random import randrange
 import names
 import datetime
 from connection import getConnection, commit, queryUpdate
-
+from logs import addLogs
     # Open a cursor to perform database operations
 for i in range(0,99):
 
@@ -21,8 +21,4 @@ for i in range(0,99):
         query = "insert into users ( firstname, lastname, usertype)  values ("  +   "\'"+ str(firstName) +"\',\'"  + str(lastName) + "\', \'General\');"
 
     queryUpdate(query)
-
-
-f = open("logs.txt", "a")
-f.write("initializing User data! ====%s\n"%( datetime.datetime.now()))
-f.close()
+    addLogs("initializing User data! ====%s\n"%( datetime.datetime.now()))

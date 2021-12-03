@@ -2,7 +2,7 @@ import datetime
 import string
 import random
 import psycopg2
-
+from connection import getConnection, queryUpdate2, queryUpdate
 conn = psycopg2.connect("hostaddr=139.147.9.154 port=5432 dbname=core user=grp1admin")
 class People:
     def __init__(self, id:int, firstName: str, lastName: str, userType:str):
@@ -48,14 +48,12 @@ class Review:
         self.movieID = movieID
         self.content = content
         vote = Vote(userID)
-        with conn:
-            with conn.cursor() as cur:
-                query = "insert into reviews (movieid,content,voteid) values (" + str(self.movieID) + ", \'" +str(self.content) +"\', " + str(vote.voteID)+ ") returning reviewid;"
-                cur.execute(query)
-                self.reviewID = cur.fetchall()[0][0]
-                query = "insert into review_user(reviewid, userid) values (" + str(self.reviewID) + ", " + str(userID) + ");"
-                cur.execute(query)
-                print("review id is ",self.reviewID)
+        query = "insert into reviews (movieid,content,voteid) values (" + str(self.movieID) + ", \'" +str(self.content) +"\', " + str(vote.voteID)+ ") returning reviewid;"
+        results = queryUpdate2(query)
+        self.reviewID = results[0][0]
+        query = "insert into review_user(reviewid, userid) values (" + str(self.reviewID) + ", " + str(userID) + ");"
+        queryUpdate(query)
+        print("review id is ",self.reviewID)
 
  #voteid     | integer |           | not null | nextval('votes_voteid_seq'::regclass)
  #userid     | integer |           | not null |
@@ -74,10 +72,8 @@ class Vote:
         self.engagement = random.randint(0,10)
         self.excitement = random.randint(0,10)
         self.quality = random.randint(0,10)
-        with conn:
-            with conn.cursor() as cur:
-                query = "insert into votes (userid,engagement,excitement,quality) values (" + str(self.userID) + ", " +str(self.engagement) +", " + str(self.excitement) + ", " + str(self.quality) + ") returning voteid;"
-                cur.execute(query)
-                self.voteID = cur.fetchall()[0][0]
+        query = "insert into votes (userid,engagement,excitement,quality) values (" + str(self.userID) + ", " +str(self.engagement) +", " + str(self.excitement) + ", " + str(self.quality) + ") returning voteid;"
+        results = queryUpdate2(query)
+        self.voteID = results[0][0]
 #
 #print("vote id is ", vote.voteID)

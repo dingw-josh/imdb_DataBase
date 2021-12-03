@@ -3,7 +3,7 @@
 
 # Note: the module name is psycopg, not psycopg3
 import make_Comments
-import logging
+from logs import addLogs
 import datetime
 import sys
 import random
@@ -42,11 +42,11 @@ if user.userType == "Hired":
     results = queryUpdate2(query)
     content = ''.join(random.choices(string.ascii_uppercase + string.digits, k=50))
     review = Review(results[0][0],content, user.userID)
+    addLogs("created a review")
 
 
-
-    f = open("logs.txt", "a")
-    f.write("Created the User with id %s !====%s\n"%(str(args[1]), datetime.datetime.now()))
-    f.close()
+    #f = open("logs.txt", "a")
+    #f.write("Created the User with id %s !====%s\n"%(str(args[1]), datetime.datetime.now()))
+    #f.close()
         # Make the changes to the database persistent
 #conn.commit()

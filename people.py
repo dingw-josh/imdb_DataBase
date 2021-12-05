@@ -17,6 +17,17 @@ class People:
 class Hired(People):
     def __init__(self, id:int, firstName: str, lastName: str):
         super().__init__(id, firstName, lastName, "Hired")
+    def makeReview(self):
+        query = "SELECT id FROM movies order by random() limit 1"
+        results = queryUpdate2(query)
+        content = ''.join(random.choices(string.ascii_uppercase + string.digits, k=50))
+        review = Review(results[0][0],content, self.userID)
+        addLogs("created a review")
+    def makeComments(self):
+        query = "SELECT reviewid FROM reviews order by random() limit 1"
+        results = queryUpdate2(query)
+        comment = Comment(self.userID, results[0][0])
+
 
 class User(People):
     def __init__(self, id:int, firstName: str, lastName: str):
@@ -25,6 +36,10 @@ class User(People):
 class General(People):
     def __init__(self, id:int, firstName: str, lastName: str):
         super().__init__(id,firstName, lastName, "General")
+    def makeComments(self):
+        query = "SELECT reviewid FROM reviews order by random() limit 1"
+        results = queryUpdate2(query)
+        comment = Comment(self.userID, results[0][0])
 
 class Comment:
     def __init__(self, commentID:int, userID:int):
@@ -107,5 +122,5 @@ class Comment:
                 query = "insert into review_comment (reviewid, commentid) values (" + str(self.reviewID) +", " + str(self.commentID) + ")"
                 cur.execute(query)
                 conn.commit()
-        addLogs("User " + str(self.userID) + "created comment " + str(self.commentID) + " on review " + str(self.reviewID))
-        print("User " + str(self.userID) + "created comment " + str(self.commentID) + " on review " + str(self.reviewID))
+        addLogs("User " + str(self.userID) + " created comment " + str(self.commentID) + " on review " + str(self.reviewID))
+        print("User " + str(self.userID) + " created comment " + str(self.commentID) + " on review " + str(self.reviewID))

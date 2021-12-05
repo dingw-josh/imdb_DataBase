@@ -8,7 +8,6 @@ with psycopg2.connect("hostaddr=139.147.9.154 port=5432 dbname=core user=grp1adm
     def queryUpdate(query:str):
         with conn.cursor() as cur:
             cur.execute(query)
-            conn.commit()
             return cur
     def queryUpdate2(query:str):
         with conn.cursor() as cur:

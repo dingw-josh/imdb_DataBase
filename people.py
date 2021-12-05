@@ -26,7 +26,10 @@ class Hired(People):
     def makeComments(self):
         query = "SELECT reviewid FROM reviews order by random() limit 1"
         results = queryUpdate2(query)
-        comment = Comment(self.userID, results[0][0])
+        if results:
+            comment = Comment(self.userID, results[0][0])
+        else:
+            print("no REVIEW: ")
 
 
 class User(People):
@@ -39,7 +42,10 @@ class General(People):
     def makeComments(self):
         query = "SELECT reviewid FROM reviews order by random() limit 1"
         results = queryUpdate2(query)
-        comment = Comment(self.userID, results[0][0])
+        if results:
+            comment = Comment(self.userID, results[0][0])
+        else:
+            print("no REVIEW: ")
 
 class Comment:
     def __init__(self, commentID:int, userID:int):

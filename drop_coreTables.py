@@ -1,7 +1,7 @@
 # Note: the module name is psycopg, not psycopg3
 from connection import getConnection, queryUpdate2, queryUpdate
 from logs import addLogs
-
+import init_500users
         # Query the database and obtain data as Python objects.
 query = "drop table movies_directors;\n"
 query = query + "drop table directors_genres;\n"

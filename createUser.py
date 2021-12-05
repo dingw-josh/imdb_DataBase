@@ -13,20 +13,15 @@ from connection import getConnection, commit, queryUpdate, queryUpdate2
 # Connect to an existing database
 
 args = sys.argv
-if len(args) != 2:
-    raise TypeError
+if len(args) == 2:
+    query = "SELECT * "
+    query += "FROM users where userid = " + str(args[1])
+    results = queryUpdate2(query)
+else:
+    query = "SELECT * FROM users order by random() limit 1"
+    results = queryUpdate2(query)
 
-        # Query the database and obtain data as Python objects.
-query = "SELECT * "
-query += "FROM users where userid = " + str(args[1])
-#queryUpdate(query)
-        # You can use `cur.fetchmany()`, `cur.fetchall()` to return a list
-        # of several records, or even iterate on the cursor
-        # for record in cur:
-        #    print(record)
-results = queryUpdate2(query)
-print(len(results))
-        #print(len(results))
+
 if results[0][3] == "Hired":
     user = Hired(results[0][0], results[0][1],results[0][2])
 elif results[0][3] == "User":
@@ -38,7 +33,8 @@ if user.userType == "Hired":
     #making review
     rand = randrange(1,3)
     if rand == 1:
-        user.makeReview()
+        #user.makeReview()
+        a = 2
     if rand == 2:
         user.makeComments()
 
@@ -46,11 +42,11 @@ if user.userType == "General":
     user.makeComments()
 
 
-def makeComments():
-    query = "SELECT reviewid FROM reviews order by random() limit 1"
-    results = queryUpdate2(query)
-    comment = Comment(user.userID, results[0][0])
-
+# def makeComments():
+#     query = "SELECT reviewid FROM reviews order by random() limit 1"
+#     results = queryUpdate2(query)
+#     comment = Comment(user.userID, results[0][0])
+#
 
 
     #f = open("logs.txt", "a")

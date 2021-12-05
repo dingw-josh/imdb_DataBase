@@ -2,13 +2,12 @@
 # can read all the data of movies on the server, ordered by year
 
 # Note: the module name is psycopg, not psycopg3
-import make_Comments
 from logs import addLogs
 import datetime
 import sys
 import random
 import string
-from people import Hired, User, General, Vote, Review
+from people import Hired, User, General, Vote, Review, Comment
 from connection import getConnection, commit, queryUpdate, queryUpdate2
 # Connect to an existing database
 
@@ -37,12 +36,16 @@ else:
 if user.userType == "Hired":
     #making review
 
-    query = "SELECT id "
-    query += "FROM movies order by random() limit 1"
+    query = "SELECT id FROM movies order by random() limit 1"
     results = queryUpdate2(query)
     content = ''.join(random.choices(string.ascii_uppercase + string.digits, k=50))
     review = Review(results[0][0],content, user.userID)
     addLogs("created a review")
+
+if user.userType == "General":
+    query = "SELECT reviewid FROM reviews order by random() limit 1"
+    results = queryUpdate2(query)
+    comment = Comment(user.userID, results[0][0])
 
 
     #f = open("logs.txt", "a")

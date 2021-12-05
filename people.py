@@ -4,6 +4,7 @@ import random
 import psycopg2
 import string
 from connection import getConnection, queryUpdate2, queryUpdate
+from logs import addLogs
 class People:
     def __init__(self, id:int, firstName: str, lastName: str, userType:str):
         self.userID = id
@@ -92,11 +93,19 @@ class Comment:
         f.write("User %s made a comment with vote %s!====%s\n"%(str(self.userID), str(self.voteID), datetime.datetime.now()))
         f.close()
 
-    def __init__(self, userID:int):
+    def __init__(self, userID:int, reviewID:int):
         self.userID = userID
+        self.reviewID = reviewID
         #random generate the context of the comments
-        self.content = ''.join(random.choices(string.ascii_uppercase +
-                             string.digits, 100))
-        query = "insert into comments (userid, content) values (" + str(self.userID) + ", " + ") returning commentid;"
-        self.commentID = queryUpdate2(query)[0][0]
-        addLogs("User " + str(self.userID) + "created comment " + str(self.commentID))
+        conn = getConnection()
+        with conn.cursor() as cur:
+                self.content = ''.join(random.choices(string.ascii_uppercase +
+                                     string.digits, k =20))
+                query = "insert into comments (userid, content) values (" + str(self.userID) +", \'" +self.content + "\') returning commentid;"
+                cur.execute(query)
+                self.commentID = cur.fetchall()[0][0]
+                query = "insert into review_comment (reviewid, commentid) values (" + str(self.reviewID) +", " + str(self.commentID) + ")"
+                cur.execute(query)
+                conn.commit()
+        addLogs("User " + str(self.userID) + "created comment " + str(self.commentID) + " on review " + str(self.reviewID))
+        print("User " + str(self.userID) + "created comment " + str(self.commentID) + " on review " + str(self.reviewID))

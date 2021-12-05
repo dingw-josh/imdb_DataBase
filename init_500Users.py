@@ -11,7 +11,8 @@ from logs import addLogs
 # Open a cursor to perform database operations
 
 count = 0;
-for i in range(0, 5):
+numOfUser = 100;
+for i in range(0, numOfUser):
 
     rand = randrange(1, 4)
     firstName = names.get_first_name()
@@ -34,7 +35,7 @@ for i in range(0, 5):
 
     if results:
         count += 1
-if count == 5:
+if count == numOfUser:
     addLogs("initializing User data! ====%s\n" % (datetime.datetime.now()))
 else:
-    addLogs("ERROR: Total user initiated is " + str(count) + ", not 5 ====%s\n" % (datetime.datetime.now()))
+    addLogs("ERROR: Total user initiated is " + str(count) + ", not "+str(numOfUser)+" ====%s\n" % (datetime.datetime.now()))

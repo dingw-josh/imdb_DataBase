@@ -14,3 +14,7 @@ with conn:
         query += "alter sequence users_userid_seq  restart;"
         query += "alter sequence comments_commentid_seq  restart;"
         cur.execute(query)
+
+file = open("loging.log","r+")
+file.truncate(0)
+file.close()

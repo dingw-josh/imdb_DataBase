@@ -5,20 +5,36 @@
 from random import randrange
 import names
 import datetime
-from connection import getConnection, commit, queryUpdate
+from connection import getConnection, commit, queryUpdate, queryUpdate2
 from logs import addLogs
-    # Open a cursor to perform database operations
-for i in range(0,99):
 
-    rand = randrange(1,4)
+# Open a cursor to perform database operations
+
+count = 0;
+for i in range(0, 5):
+
+    rand = randrange(1, 4)
     firstName = names.get_first_name()
     lastName = names.get_last_name()
     if rand == 1:
-        query = "insert into users ( firstname, lastname, usertype) values (" +  " \'"+ str(firstName) +"\',\'"  + str(lastName) + "\', \'Hired\' );"
+        query = "insert into users ( firstname, lastname, usertype) values (" + " \'" + str(firstName) + "\',\'" + str(
+            lastName) + "\', \'Hired\' );"
     elif rand == 2:
-        query = "insert into users ( firstname, lastname, usertype)  values (" +   "\'"+ str(firstName) +"\',\'"  + str(lastName) + "\', \'User\' );"
+        query = "insert into users ( firstname, lastname, usertype)  values (" + "\'" + str(firstName) + "\',\'" + str(
+            lastName) + "\', \'User\' );"
     else:
-        query = "insert into users ( firstname, lastname, usertype)  values ("  +   "\'"+ str(firstName) +"\',\'"  + str(lastName) + "\', \'General\');"
+        query = "insert into users ( firstname, lastname, usertype)  values (" + "\'" + str(firstName) + "\',\'" + str(
+            lastName) + "\', \'General\');"
 
     queryUpdate(query)
-    addLogs("initializing User data! ====%s\n"%( datetime.datetime.now()))
+
+    query = "SELECT * "
+    query += "FROM users where firstname = '" + str(firstName) + "' AND lastname = '" + str(lastName) + "';"
+    results = queryUpdate2(query)
+
+    if results:
+        count += 1
+if count == 5:
+    addLogs("initializing User data! ====%s\n" % (datetime.datetime.now()))
+else:
+    addLogs("ERROR: Total user initiated is " + str(count) + ", not 5 ====%s\n" % (datetime.datetime.now()))

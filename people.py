@@ -2,8 +2,8 @@ import datetime
 import string
 import random
 import psycopg2
+import string
 from connection import getConnection, queryUpdate2, queryUpdate
-conn = psycopg2.connect("hostaddr=139.147.9.154 port=5432 dbname=core user=grp1admin")
 class People:
     def __init__(self, id:int, firstName: str, lastName: str, userType:str):
         self.userID = id
@@ -75,5 +75,28 @@ class Vote:
         query = "insert into votes (userid,engagement,excitement,quality) values (" + str(self.userID) + ", " +str(self.engagement) +", " + str(self.excitement) + ", " + str(self.quality) + ") returning voteid;"
         results = queryUpdate2(query)
         self.voteID = results[0][0]
-#
-#print("vote id is ", vote.voteID)
+        #
+        #print("vote id is ", vote.voteID)
+
+# commentid | integer                |           | not null | nextval('comments_commentid_seq'::regclass)
+# userid    | integer                |           | not null |
+ #content   | character varying(100) |           | not null |
+class Comment:
+    def __init__(self, commentID:int, userID:int):
+        self.commentID = commentID
+        self.userID = userID
+        #random generate the context of the comments
+        self.content = ''.join(random.choices(string.ascii_uppercase +
+                             string.digits, 100))
+        f = open("logs.txt", "a")
+        f.write("User %s made a comment with vote %s!====%s\n"%(str(self.userID), str(self.voteID), datetime.datetime.now()))
+        f.close()
+
+    def __init__(self, userID:int):
+        self.userID = userID
+        #random generate the context of the comments
+        self.content = ''.join(random.choices(string.ascii_uppercase +
+                             string.digits, 100))
+        query = "insert into comments (userid, content) values (" + str(self.userID) + ", " + ") returning commentid;"
+        self.commentID = queryUpdate2(query)[0][0]
+        addLogs("User " + str(self.userID) + "created comment " + str(self.commentID))

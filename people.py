@@ -73,7 +73,6 @@ class Comment:
     def __init__(self, commentID:int, userID:int):
         self.commentID = commentID
         self.userID = userID
-        self.voteID = voteID
         #random generate the context of the comments
         self.content = ''.join(random.choices(string.ascii_uppercase +
                              string.digits, 100))
@@ -105,7 +104,7 @@ class Review:
  #excitement | integer |           | not null | 0
  #quality    | integer |           | not null | 0
 class Vote:
-    def __init__(self, voreID:int, userID:int, engagement:int, excitement:int, quality:int):
+    def __init__(self, voteID:int, userID:int, engagement:int, excitement:int, quality:int):
         self.voteID = voteID
         self.userID = userID
         self.engagement = engagement

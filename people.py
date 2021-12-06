@@ -30,6 +30,10 @@ class Hired(People):
         content = ''.join(random.choices(string.ascii_uppercase + string.digits, k=50))
         review = Review(results[0][0],content, self.userID)
         addLogs("created a review")
+
+    def makeComments(self,reviewID):
+        comment = Comment(self.userID, reviewID)
+
     def makeComments(self):
         query = "SELECT reviewid FROM reviews order by random() limit 1"
         results = queryUpdate2(query)
@@ -55,18 +59,39 @@ class Hired(People):
 class User(People):
     def __init__(self, id:int, firstName: str, lastName: str):
         super().__init__(id,firstName, lastName, "User")
-
-
-class General(People):
-    def __init__(self, id:int, firstName: str, lastName: str):
-        super().__init__(id,firstName, lastName, "General")
-
     def makeReview(self):
         query = "SELECT id FROM movies order by random() limit 1"
         results = queryUpdate2(query)
         content = ''.join(random.choices(string.ascii_uppercase + string.digits, k=50))
         review = Review(results[0][0],content, self.userID)
         addLogs("created a review")
+
+    def makeComments(self,reviewID):
+        comment = Comment(self.userID, reviewID)
+
+    def makeComments(self):
+        query = "SELECT reviewid FROM reviews order by random() limit 1"
+        results = queryUpdate2(query)
+        if results:
+            comment = Comment(self.userID, results[0][0])
+        else:
+            print("no REVIEW: ")
+
+
+class General(People):
+    def __init__(self, id:int, firstName: str, lastName: str):
+        super().__init__(id,firstName, lastName, "General")
+
+    def makeComments(self,reviewID):
+        comment = Comment(self.userID, reviewID)
+
+    def makeComments(self):
+        query = "SELECT reviewid FROM reviews order by random() limit 1"
+        results = queryUpdate2(query)
+        if results:
+            comment = Comment(self.userID, results[0][0])
+        else:
+            print("no REVIEW: ")
 
 
 class Comment:

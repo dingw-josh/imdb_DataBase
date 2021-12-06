@@ -30,15 +30,14 @@ else:
     user = General(results[0][0], results[0][1],results[0][2])
 
 if user.userType == "Hired":
-    #making review
-    # rand = randrange(1,3)
-    # if rand == 1:
-    #     user.makeReview()
-    # if rand == 2:
-    #     user.makeComments()
+    rand = randrange(1,3)
+    if rand == 1:
+        user.makeReview()
+    if rand == 2:
+        user.makeComments()
     user.inviteUser()
 
-if user.userType == "General":
+if user.userType == "User":
     rand = randrange(1,3)
     if rand == 1:
         user.makeReview()

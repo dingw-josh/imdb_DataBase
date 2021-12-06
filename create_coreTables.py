@@ -16,55 +16,55 @@ queryUpdate(query)
 
 query = "SELECT EXISTS (SELECT table_name FROM information_schema.tables WHERE table_name = 'movies');"
 result = queryUpdate2(query)
-if result:
+if result[0][0]:
     count += 1
 else:
     addLogs("ERROR: failed to create movies table ====%s\n" % (datetime.datetime.now()))
 
 query = "SELECT EXISTS (SELECT table_name FROM information_schema.tables WHERE table_name = 'directors');"
 result = queryUpdate2(query)
-if result:
+if result[0][0]:
     count += 1
 else:
     addLogs("ERROR: failed to create directors table ====%s\n" % (datetime.datetime.now()))
 
 query = "SELECT EXISTS (SELECT table_name FROM information_schema.tables WHERE table_name = 'actors');"
 result = queryUpdate2(query)
-if result:
+if result[0][0]:
     count += 1
 else:
     addLogs("ERROR: failed to create actors table ====%s\n" % (datetime.datetime.now()))
 
 query = "SELECT EXISTS (SELECT table_name FROM information_schema.tables WHERE table_name = 'roles');"
 result = queryUpdate2(query)
-if result:
+if result[0][0]:
     count += 1
 else:
     addLogs("ERROR: failed to create roles table ====%s\n" % (datetime.datetime.now()))
 
 query = "SELECT EXISTS (SELECT table_name FROM information_schema.tables WHERE table_name = 'movie_genres');"
 result = queryUpdate2(query)
-if result:
+if result[0][0]:
     count += 1
 else:
     addLogs("ERROR: failed to create movie_genres table ====%s\n" % (datetime.datetime.now()))
 
 query = "SELECT EXISTS (SELECT table_name FROM information_schema.tables WHERE table_name = 'movies_directors');"
 result = queryUpdate2(query)
-if result:
+if result[0][0]:
     count += 1
 else:
     addLogs("ERROR: failed to create movies_directors table ====%s\n" % (datetime.datetime.now()))
 
 query = "SELECT EXISTS (SELECT table_name FROM information_schema.tables WHERE table_name = 'directors_genres');"
 result = queryUpdate2(query)
-if result:
+if result[0][0]:
     count += 1
 else:
     addLogs("ERROR: failed to create directors_genres table ====%s\n" % (datetime.datetime.now()))
 
 if count == 7:
-    addLogs("Create tables for core data of movies")
+    addLogs("Created tables for core data. ====%s" % (datetime.datetime.now()))
 else:
-    addLogs("ERROR: " + str(count) + "core tables made in total, see above for the missing table(s)%s\n" % (
+    addLogs("ERROR: " + str(count) + " core tables made in total, see above for the missing table(s)%s\n" % (
         datetime.datetime.now()))

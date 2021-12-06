@@ -18,8 +18,8 @@ class People:
             comment = Comment(self.userID, results[0][0])
         else:
             print("no REVIEW: ")
-    def makeComments(self,reviewID):
-        comment = Comment(self.userID, reviewID)
+    def invitedComment(self,reviewID):
+        pass
 
 class Hired(People):
     def __init__(self, id:int, firstName: str, lastName: str):
@@ -31,8 +31,10 @@ class Hired(People):
         review = Review(results[0][0],content, self.userID)
         addLogs("created a review")
 
-    def makeComments(self,reviewID):
+    def invitedComment(self,reviewID):
         comment = Comment(self.userID, reviewID)
+        print(self.userType +" User " + str(self.userID) + " accomplished invitation")
+        addLogs(self.userType +" User " + str(self.userID) + " accomplished invitation")
 
     def makeComments(self):
         query = "SELECT reviewid FROM reviews order by random() limit 1"
@@ -49,9 +51,15 @@ class Hired(People):
             query = "SELECT * FROM users order by random() limit 1"
             results = queryUpdate2(query)
             if results:
-                user = People(results[0][0], results[0][1],results[0][2],results[0][3])
-                user.makeComments(reviewID)
-                print("invited user " + str(user.userID) + " is making a comment on " + str(reviewID))
+                if results[0][3] == "Hired":
+                    temp = Hired(results[0][0], results[0][1],results[0][2])
+                elif results[0][3] == "User":
+                    temp = User(results[0][0], results[0][1],results[0][2])
+                else:
+                    temp = General(results[0][0], results[0][1],results[0][2])
+
+                temp.invitedComment(reviewID)
+                print(self.userType +" User " + str(self.userID) + " invited user " + str(temp.userID) + " to make a comment on " + str(reviewID))
         else:
             print("there is no record in review_user")
 
@@ -66,8 +74,10 @@ class User(People):
         review = Review(results[0][0],content, self.userID)
         addLogs("created a review")
 
-    def makeComments(self,reviewID):
+    def invitedComment(self,reviewID):
         comment = Comment(self.userID, reviewID)
+        print(self.userType +" User " + str(self.userID) + " accomplished invitation")
+        addLogs(self.userType +" User " + str(self.userID) + " accomplished invitation")
 
     def makeComments(self):
         query = "SELECT reviewid FROM reviews order by random() limit 1"
@@ -82,8 +92,11 @@ class General(People):
     def __init__(self, id:int, firstName: str, lastName: str):
         super().__init__(id,firstName, lastName, "General")
 
-    def makeComments(self,reviewID):
+    def invitedComment(self,reviewID):
         comment = Comment(self.userID, reviewID)
+
+        print(self.userType +" User " + str(self.userID) + " accomplished invitation")
+        addLogs(self.userType +" User " + str(self.userID) + " accomplished invitation")
 
     def makeComments(self):
         query = "SELECT reviewid FROM reviews order by random() limit 1"
@@ -94,13 +107,13 @@ class General(People):
             print("no REVIEW: ")
 
 
-class Comment:
-    def __init__(self, commentID:int, userID:int):
-        self.commentID = commentID
-        self.userID = userID
-        #random generate the context of the comments
-        self.content = ''.join(random.choices(string.ascii_uppercase +
-                             string.digits, 100))
+# class Comment:
+#     def __init__(self, commentID:int, userID:int):
+#         self.commentID = commentID
+#         self.userID = userID
+#         #random generate the context of the comments
+#         self.content = ''.join(random.choices(string.ascii_uppercase +
+#                              string.digits, 100))
 # reviewid | integer                |           | not null |
 # movieid  | integer                |           | not null |
 # content  | character varying(100) |           | not null |
@@ -150,15 +163,15 @@ class Vote:
 # userid    | integer                |           | not null |
  #content   | character varying(100) |           | not null |
 class Comment:
-    def __init__(self, commentID:int, userID:int):
-        self.commentID = commentID
-        self.userID = userID
-        #random generate the context of the comments
-        self.content = ''.join(random.choices(string.ascii_uppercase +
-                             string.digits, 100))
-        f = open("logs.txt", "a")
-        f.write("User %s made a comment with vote %s!====%s\n"%(str(self.userID), str(self.voteID), datetime.datetime.now()))
-        f.close()
+    # def __init__(self, commentID:int, userID:int):
+    #     self.commentID = commentID
+    #     self.userID = userID
+    #     #random generate the context of the comments
+    #     self.content = ''.join(random.choices(string.ascii_uppercase +
+    #                          string.digits, 100))
+    #     f = open("logs.txt", "a")
+    #     f.write("User %s made a comment with vote %s!====%s\n"%(str(self.userID), str(self.voteID), datetime.datetime.now()))
+    #     f.close()
 
     def __init__(self, userID:int, reviewID:int):
         self.userID = userID

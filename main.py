@@ -16,5 +16,5 @@ import os
 from random import randrange
 import subprocess
 
-for lp in range(50):
+for lp in range(10):
     subprocess.call(['python3', 'createUser.py'])

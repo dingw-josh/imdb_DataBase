@@ -43,3 +43,6 @@ if user.userType == "User":
         user.makeReview()
     if rand == 2:
         user.makeComments()
+
+if user.userType == "General":
+    user.makeComments()

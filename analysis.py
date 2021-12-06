@@ -41,7 +41,7 @@ def bestMovie():
         totalScores.append((movieScore,record2[2]))
 
     totalScores.sort(key=lambda y: y[0])
-    print(totalScores[len(totalScores) - 1])
+    #print(totalScores[len(totalScores) - 1])
     #
     query = "select * from movies where id = " + str(totalScores[0][1])
     result = queryUpdate2(query)
@@ -66,7 +66,7 @@ def movie_with_most_review():
             max = record
     query = "select * from movies where id = " + str(max[0])
     result = queryUpdate2(query)
-    print("The Movie \""+ result[0][1] + "\" in year " + str(result[0][2]) + "has the most review.")
+    print("The Movie \""+ result[0][1] + "\" in year " + str(result[0][2]) + " has the highest number of reviews.")
 
 bestMovie()
 movie_with_most_review()
@@ -82,14 +82,14 @@ def popularMovie():
         query = "select count(*) from surveys where movieid = " + str(record[0])
         value = queryUpdate2(query)[0]
         surveyRecord.append((record[0],value[0]))
-    print(surveyRecord)
+    # print(surveyRecord)
     max = surveyRecord[0]
     for record in surveyRecord:
         if record[1] > max[1]:
             max = record
     query = "select * from movies where id = " + str(max[0])
     result = queryUpdate2(query)
-    print("Movie id "+str(result[0][0]) + " Movie name" + result[0][1] + " surveyed most")
+    print("Movie \"" + result[0][1] + "\" surveyed most")
 
 popularMovie()
 

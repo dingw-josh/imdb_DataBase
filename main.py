@@ -28,3 +28,4 @@ for lp in range(10):
     subprocess.call(['python3', 'createUser.py' , str(results[lp][0])])
 
 os.system('python3 IntegrityCheck.py')
+os.system('python3 analysis.py')

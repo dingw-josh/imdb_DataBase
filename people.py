@@ -29,7 +29,7 @@ class Hired(People):
         results = queryUpdate2(query)
         content = ''.join(random.choices(string.ascii_uppercase + string.digits, k=50))
         review = Review(results[0][0],content, self.userID)
-        addLogs("created a review")
+        addLogs("Review: User " + str(self.userID) +" created a review " + str(review.reviewID))
 
     def invitedComment(self,reviewID):
         comment = Comment(self.userID, reviewID)
@@ -73,7 +73,7 @@ class User(People):
         results = queryUpdate2(query)
         content = ''.join(random.choices(string.ascii_uppercase + string.digits, k=50))
         review = Review(results[0][0],content, self.userID)
-        addLogs("created a review")
+        addLogs("Review: User " + str(self.userID) +" created a review " + str(review.reviewID))
 
     def invitedComment(self,reviewID):
         comment = Comment(self.userID, reviewID)

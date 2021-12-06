@@ -35,4 +35,16 @@ for x in f:
                            user + "failed to respond to invitation, because there is no created comment " + comment + "in table comments.\n")
             else:
                 file.write(str(datetime.datetime.now()) + " OK, user "+user+" successfully created comment "+comment + "\n")
+    if len(lines) == 9:
+        if lines[2] == 'Review:':
+            user = lines[4]
+            review = lines[8]
+            result = queryUpdate2("SELECT EXISTS (Select * from reviews where reviewid = " + review
+                                  + " and userid = " + user +");")
+            if not result[0][0]:
+                file.write(str(datetime.datetime.now()) + " ERROR, User " +
+                           user + "failed to create a review " + review + "in table reviews.\n")
+            else:
+                file.write(str(datetime.datetime.now()) + " OK, user "+user+" successfully created a review "+review + "\n")
+
 f.close()

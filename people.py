@@ -33,8 +33,9 @@ class Hired(People):
 
     def invitedComment(self,reviewID):
         comment = Comment(self.userID, reviewID)
-        print(self.userType +" User " + str(self.userID) + " accomplished invitation")
-        addLogs(self.userType +" User " + str(self.userID) + " accomplished invitation")
+
+        print(self.userType +" User " + str(self.userID) + " accomplished invitation by comment "+str(comment.commentID))
+        addLogs("Invitation: " + self.userType +" User " + str(self.userID) + " accomplished invitation by comment " + str(comment.commentID))
 
     def makeComments(self):
         query = "SELECT reviewid FROM reviews order by random() limit 1"
@@ -76,8 +77,8 @@ class User(People):
 
     def invitedComment(self,reviewID):
         comment = Comment(self.userID, reviewID)
-        print(self.userType +" User " + str(self.userID) + " accomplished invitation")
-        addLogs(self.userType +" User " + str(self.userID) + " accomplished invitation")
+        print(self.userType +" User " + str(self.userID) + " accomplished invitation by comment "+str(comment.commentID))
+        addLogs("Invitation: "+ self.userType +" User " + str(self.userID) + " accomplished invitation by comment " + str(comment.commentID))
 
     def makeComments(self):
         query = "SELECT reviewid FROM reviews order by random() limit 1"
@@ -95,8 +96,9 @@ class General(People):
     def invitedComment(self,reviewID):
         comment = Comment(self.userID, reviewID)
 
-        print(self.userType +" User " + str(self.userID) + " accomplished invitation")
-        addLogs(self.userType +" User " + str(self.userID) + " accomplished invitation")
+
+        print(self.userType +" User " + str(self.userID) + " accomplished invitation by comment "+str(comment.commentID))
+        addLogs("Invitation: "+ self.userType +" User " + str(self.userID) + " accomplished invitation by comment " + str(comment.commentID))
 
     def makeComments(self):
         query = "SELECT reviewid FROM reviews order by random() limit 1"

@@ -22,4 +22,17 @@ for x in f:
                            user + "failed to create comment " + comment + "in table comments.\n")
             else:
                 file.write(str(datetime.datetime.now()) + " OK, user "+user+" created comment "+comment + "\n")
+
+        if lines[2] == 'Invitation:':
+            # check the user who accomplished invitation
+            # check user id and comment id in table 'comments'
+            user = lines[5]
+            comment = lines[10]
+            result = queryUpdate2("SELECT EXISTS (Select * from comments where commentid = "
+                                  + comment + " and userid = " + user + ");")
+            if not result[0][0]:
+                file.write(str(datetime.datetime.now()) + " ERROR, User " +
+                           user + "failed to respond to invitation, because there is no created comment " + comment + "in table comments.\n")
+            else:
+                file.write(str(datetime.datetime.now()) + " OK, user "+user+" successfully created comment "+comment + "\n")
 f.close()

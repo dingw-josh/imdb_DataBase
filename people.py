@@ -222,6 +222,7 @@ class General(People):
         vote = Vote(self.userID)
         query = "insert into survey_vote (surveyid, voteid) values (" + str(surveyID) +", " + str(vote.voteID) + ")"
         queryUpdate(query)
+        addLogs("Vote: User " + str(self.userID) + " created a vote " + str(vote.voteID) + " on survey " + str(surveyID))
 
 
 # class Comment:
@@ -273,7 +274,7 @@ class Vote:
         query = "insert into votes (userid,engagement,excitement,quality) values (" + str(self.userID) + ", " +str(self.engagement) +", " + str(self.excitement) + ", " + str(self.quality) + ") returning voteid;"
         results = queryUpdate2(query)
         self.voteID = results[0][0]
-        #
+
         #print("vote id is ", vote.voteID)
 
 # commentid | integer                |           | not null | nextval('comments_commentid_seq'::regclass)

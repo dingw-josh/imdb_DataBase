@@ -31,12 +31,12 @@ else:
 
 if user.userType == "Hired":
     #making review
-    rand = randrange(1,3)
-    if rand == 1:
-        user.makeReview()
-    if rand == 2:
-        user.makeComments()
-
+    # rand = randrange(1,3)
+    # if rand == 1:
+    #     user.makeReview()
+    # if rand == 2:
+    #     user.makeComments()
+    user.inviteUser()
 
 if user.userType == "General":
     rand = randrange(1,3)

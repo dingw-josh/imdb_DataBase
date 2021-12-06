@@ -37,15 +37,17 @@ class Hired(People):
             comment = Comment(self.userID, results[0][0])
         else:
             print("no REVIEW: ")
-    def inviteUser():
-        query = "select reviewid from review_user where userid == " + str(self.userID) +" order by random() limit 1"
+    def inviteUser(self):
+        query = "select reviewid from review_user where userid = " + str(self.userID) +" order by random() limit 1"
         results = queryUpdate2(query)
         if results:
             reviewID = results[0][0]
             query = "SELECT * FROM users order by random() limit 1"
             results = queryUpdate2(query)
-            user = User(results[0][0], results[0][1],results[0][2],results[0][3])
-            user.makeComments(reviewID)
+            if results:
+                user = User(results[0][0], results[0][1],results[0][2],results[0][3])
+                user.makeComments(reviewID)
+                print("invited user " + str(user.userID) + " is making a comment on " + str(reviewID))
         else:
             print("there is no record in review_user")
 
@@ -54,9 +56,17 @@ class User(People):
     def __init__(self, id:int, firstName: str, lastName: str):
         super().__init__(id,firstName, lastName, "User")
 
+
 class General(People):
     def __init__(self, id:int, firstName: str, lastName: str):
         super().__init__(id,firstName, lastName, "General")
+
+    def makeReview(self):
+        query = "SELECT id FROM movies order by random() limit 1"
+        results = queryUpdate2(query)
+        content = ''.join(random.choices(string.ascii_uppercase + string.digits, k=50))
+        review = Review(results[0][0],content, self.userID)
+        addLogs("created a review")
 
 
 class Comment:

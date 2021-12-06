@@ -61,6 +61,7 @@ class Hired(People):
 
                 temp.invitedComment(reviewID)
                 print(self.userType +" User " + str(self.userID) + " invited user " + str(temp.userID) + " to make a comment on " + str(reviewID))
+                addLogs("Invite: "+self.userType +" User " + str(self.userID) + " invited user " + str(temp.userID) + " to make a comment on " + str(reviewID))
         else:
             print("there is no record in review_user")
 

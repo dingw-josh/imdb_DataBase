@@ -6,13 +6,13 @@ import init_500Users
 
 count = 0
         # Query the database and obtain data as Python objects.
-query = "drop table movies_directors CASCADE;\n"
-query = query + "drop table directors_genres CASCADE;\n"
-query = query + "drop table movie_genres CASCADE;\n"
-query = query + "drop table roles CASCADE;\n"
-query = query + "drop table actors CASCADE;\n"
-query = query + "drop table directors CASCADE;\n"
-query = query + "drop table movies CASCADE;\n"
+query = "drop table movies_directors;\n"
+query = query + "drop table directors_genres;\n"
+query = query + "drop table movie_genres;\n"
+query = query + "drop table roles;\n"
+query = query + "drop table actors;\n;"
+query = query + "drop table directors;\n"
+query = query + "drop table movies;\n"
 queryUpdate(query)
 
 query = "SELECT EXISTS (SELECT table_name FROM information_schema.tables WHERE table_name = 'movies');"

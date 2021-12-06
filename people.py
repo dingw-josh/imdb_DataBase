@@ -49,7 +49,7 @@ class Hired(People):
             query = "SELECT * FROM users order by random() limit 1"
             results = queryUpdate2(query)
             if results:
-                user = User(results[0][0], results[0][1],results[0][2],results[0][3])
+                user = People(results[0][0], results[0][1],results[0][2],results[0][3])
                 user.makeComments(reviewID)
                 print("invited user " + str(user.userID) + " is making a comment on " + str(reviewID))
         else:

@@ -43,17 +43,3 @@ if user.userType == "User":
         user.makeReview()
     if rand == 2:
         user.makeComments()
-
-
-# def makeComments():
-#     query = "SELECT reviewid FROM reviews order by random() limit 1"
-#     results = queryUpdate2(query)
-#     comment = Comment(user.userID, results[0][0])
-#
-
-
-    #f = open("logs.txt", "a")
-    #f.write("Created the User with id %s !====%s\n"%(str(args[1]), datetime.datetime.now()))
-    #f.close()
-        # Make the changes to the database persistent
-#conn.commit()

@@ -11,7 +11,7 @@ from logs import addLogs
 # Open a cursor to perform database operations
 def initUsers():
     count = 0;
-    numOfUser = 100;
+    numOfUser = 500;
     for i in range(0, numOfUser):
 
         rand = randrange(1, 4)

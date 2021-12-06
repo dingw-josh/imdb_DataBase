@@ -82,8 +82,8 @@ for x in f:
             review = lines[14]
             result = queryUpdate2("SELECT EXISTS (Select * from review_comment " +
                                   "where commentid = " +
-                                  "(Select commentid from comments where userid = " + user + ")"
-                                  + " and reviewid = " + review + ");")
+                                  "(Select commentid from comments where userid = " + user + " limit 1)"
+                                  + " and reviewid = " + review + ") ;")
             if not result[0][0]:
                 file.write(str(datetime.datetime.now()) + " ERROR, User " +
                            lines[

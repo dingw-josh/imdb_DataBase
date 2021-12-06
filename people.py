@@ -187,5 +187,5 @@ class Comment:
                 query = "insert into review_comment (reviewid, commentid) values (" + str(self.reviewID) +", " + str(self.commentID) + ")"
                 cur.execute(query)
                 conn.commit()
-        addLogs("User " + str(self.userID) + " created comment " + str(self.commentID) + " on review " + str(self.reviewID))
+        addLogs("Comment: User " + str(self.userID) + " created comment " + str(self.commentID) + " on review " + str(self.reviewID))
         print("User " + str(self.userID) + " created comment " + str(self.commentID) + " on review " + str(self.reviewID))

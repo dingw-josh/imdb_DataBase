@@ -252,7 +252,7 @@ class Review:
         self.reviewID = results[0][0]
         query = "insert into review_user(reviewid, userid) values (" + str(self.reviewID) + ", " + str(userID) + ");"
         queryUpdate(query)
-        print("review id is ",self.reviewID)
+        print("User " + str(userID) +" created review " + str(self.reviewID) + " on movie " + str(movieID))
 
  #voteid     | integer |           | not null | nextval('votes_voteid_seq'::regclass)
  #userid     | integer |           | not null |

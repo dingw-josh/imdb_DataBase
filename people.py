@@ -20,6 +20,14 @@ class People:
             print("no REVIEW: ")
     def invitedComment(self,reviewID):
         pass
+    
+    def makeVote(self):
+        query = "SELECT voteid FROM votes order by random() limit 1"
+        results = queryUpdate2(query)
+        if results:
+            vote = Vote(self.userID, results[0][0])
+        else:
+            print("no VOTE: ")
 
 class Hired(People):
     def __init__(self, id:int, firstName: str, lastName: str):
@@ -30,6 +38,14 @@ class Hired(People):
         content = ''.join(random.choices(string.ascii_uppercase + string.digits, k=50))
         review = Review(results[0][0],content, self.userID)
         addLogs("Review: User " + str(self.userID) +" created a review " + str(review.reviewID))
+    
+    def makeVote(self):
+        query = "SELECT voteid FROM votes order by random() limit 1"
+        results = queryUpdate2(query)
+        if results:
+            vote = Vote(self.userID, results[0][0])
+        else:
+            print("no VOTE: ")
 
     def invitedComment(self,reviewID):
         comment = Comment(self.userID, reviewID)
@@ -44,6 +60,18 @@ class Hired(People):
             comment = Comment(self.userID, results[0][0])
         else:
             print("no REVIEW: ")
+    
+    def makeSurvey(self):
+        query = "SELECT movieid FROM movies order by random() limit 1"
+        results = queryUpdate2(query)
+        if results:
+            survey = Survey(self.userID, results[0][0])
+        else:
+            print("no SURVEY: ")
+    def invitedSurvey(self,movieID):
+        pass
+
+
     def inviteUser(self):
         query = "select reviewid from review_user where userid = " + str(self.userID) +" order by random() limit 1"
         results = queryUpdate2(query)
@@ -64,6 +92,25 @@ class Hired(People):
                 addLogs("Invite: "+self.userType +" User " + str(self.userID) + " invited user " + str(temp.userID) + " to make a comment on " + str(reviewID))
         else:
             print("there is no record in review_user")
+    def inviteUserSurvey(self):
+            query = "select survey_id from Surveys where userid = " + str(self.userID) +" order by random() limit 1"
+            results = queryUpdate2(query)
+            if results:
+                surveyID = results[0][0]
+                query = "SELECT * FROM users order by random() limit 1"
+                results = queryUpdate2(query)
+                if results:
+                    if results[0][3] == "Hired":
+                        temp = Hired(results[0][0], results[0][1],results[0][2])
+                    elif results[0][3] == "User":
+                        temp = User(results[0][0], results[0][1],results[0][2])
+                    else:
+                        temp = General(results[0][0], results[0][1],results[0][2])
+
+                    temp.invitedSurvey(surveyID)
+                    print(self.userType +" User " + str(self.userID) + " invited user " + str(temp.userID) + " to make a survey on " + str(movieID))
+            else:
+                print("there is no record in surveys")
 
 
 class User(People):
@@ -75,6 +122,14 @@ class User(People):
         content = ''.join(random.choices(string.ascii_uppercase + string.digits, k=50))
         review = Review(results[0][0],content, self.userID)
         addLogs("Review: User " + str(self.userID) +" created a review " + str(review.reviewID))
+    
+    def makeVote(self):
+        query = "SELECT voteid FROM votes order by random() limit 1"
+        results = queryUpdate2(query)
+        if results:
+            vote = Vote(self.userID, results[0][0])
+        else:
+            print("no VOTE: ")
 
     def invitedComment(self,reviewID):
         comment = Comment(self.userID, reviewID)
@@ -89,10 +144,49 @@ class User(People):
         else:
             print("no REVIEW: ")
 
+    def invitedSurvey(self,movieID):
+        pass
+
+    def makeSurvey(self):
+        query = "SELECT movieid FROM movies order by random() limit 1"
+        results = queryUpdate2(query)
+        if results:
+            survey = Survey(self.userID, results[0][0])
+        else:
+            print("no SURVEY: ")
+
+    def inviteUserSurvey(self):
+            query = "select survey_id from Surveys where userid = " + str(self.userID) +" order by random() limit 1"
+            results = queryUpdate2(query)
+            if results:
+                surveyID = results[0][0]
+                query = "SELECT * FROM users order by random() limit 1"
+                results = queryUpdate2(query)
+                if results:
+                    if results[0][3] == "Hired":
+                        temp = Hired(results[0][0], results[0][1],results[0][2])
+                    elif results[0][3] == "User":
+                        temp = User(results[0][0], results[0][1],results[0][2])
+                    else:
+                        temp = General(results[0][0], results[0][1],results[0][2])
+
+                    temp.invitedSurvey(surveyID)
+                    print(self.userType +" User " + str(self.userID) + " invited user " + str(temp.userID) + " to make a survey on " + str(movieID))
+            else:
+                print("there is no record in surveys")
+
 
 class General(People):
     def __init__(self, id:int, firstName: str, lastName: str):
         super().__init__(id,firstName, lastName, "General")
+
+    def makeVote(self):
+        query = "SELECT voteid FROM votes order by random() limit 1"
+        results = queryUpdate2(query)
+        if results:
+            vote = Vote(self.userID, results[0][0])
+        else:
+            print("no VOTE: ")
 
     def invitedComment(self,reviewID):
         comment = Comment(self.userID, reviewID)
@@ -100,6 +194,13 @@ class General(People):
 
         print(self.userType +" User " + str(self.userID) + " accomplished invitation by comment "+str(comment.commentID))
         addLogs("Invitation: "+ self.userType +" User " + str(self.userID) + " accomplished invitation by comment " + str(comment.commentID))
+    def makeSurvey(self):
+        query = "SELECT movieid FROM movies order by random() limit 1"
+        results = queryUpdate2(query)
+        if results:
+            survey = Survey(self.userID, results[0][0])
+        else:
+            print("no SURVEY: ")
 
     def makeComments(self):
         query = "SELECT reviewid FROM reviews order by random() limit 1"
@@ -192,3 +293,28 @@ class Comment:
                 conn.commit()
         addLogs("Comment: User " + str(self.userID) + " created comment " + str(self.commentID) + " on review " + str(self.reviewID))
         print("User " + str(self.userID) + " created comment " + str(self.commentID) + " on review " + str(self.reviewID))
+class Survey:
+
+    def __init__(self, surveyID:int,userID:int,movieID:int):
+        self.surveyID = surveyID
+        self.userID = userID
+        self.movieID = movieID
+        addLogs("Survey: User %s made a survey with vote %s!====%s\n"%(str(self.userID), str(self.voteID), datetime.datetime.now()))
+
+
+    def __init__(self, userID:int, movieID:int):
+        self.userID = userID
+        self.movieID = movieID
+        #random generate the context of the comments
+        conn = getConnection()
+        with conn.cursor() as cur:
+            query = "insert into survey (userid, movieid) values (" + str(self.userID) +", \'" +self.movieID + "\') returning surveyid;"
+            cur.execute(query)
+
+            self.surveyID = cur.fetchall()[0][0]
+            query = "insert into survey_vote (surveyid, voteid) values (" + str(self.surveyID) +", " + str(self.voteID) + ")"
+            cur.execute(query)
+            conn.commit()
+        addLogs("Survey: User " + str(self.userID) + " created survey " + str(self.surveyID) + " on movie " + str(self.movieID))
+        print("User " + str(self.userID) + " created survey " + str(self.surveyID) + " on movie " + str(self.movieID))
+

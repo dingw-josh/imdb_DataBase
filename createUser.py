@@ -33,13 +33,17 @@ if user.userType == "Hired":
     #making review
     rand = randrange(1,3)
     if rand == 1:
-        #user.makeReview()
-        a = 2
+        user.makeReview()
     if rand == 2:
         user.makeComments()
 
+
 if user.userType == "General":
-    user.makeComments()
+    rand = randrange(1,3)
+    if rand == 1:
+        user.makeReview()
+    if rand == 2:
+        user.makeComments()
 
 
 # def makeComments():

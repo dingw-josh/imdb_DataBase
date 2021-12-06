@@ -39,7 +39,7 @@ for x in f:
         if lines[2] == 'Review:':
             user = lines[4]
             review = lines[8]
-            result = queryUpdate2("SELECT EXISTS (Select * from reviews where reviewid = " + review
+            result = queryUpdate2("SELECT EXISTS (Select * from review_user where reviewid = " + review
                                   + " and userid = " + user +");")
             if not result[0][0]:
                 file.write(str(datetime.datetime.now()) + " ERROR, User " +

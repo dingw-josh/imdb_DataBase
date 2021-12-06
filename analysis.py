@@ -39,6 +39,35 @@ def bestMovie():
                     singleScore = singleScore * 3
                 movieScore = movieScore + singleScore
         totalScores.append((movieScore,record2[2]))
-    print(totalScores)
+
+    totalScores.sort(key=lambda y: y[0])
+    print(totalScores[len(totalScores) - 1])
+    #
+    query = "select * from movies where id = " + str(totalScores[0][1])
+    result = queryUpdate2(query)
+    print("The movie \"" + str(result[0][1]) + "\" in year " + str(result[0][2]) + " has the best score " + str(totalScores[0][0]))
+
+
+
+def movie_with_most_review():
+    movie_record = []
+    query = "select distinct movieid from reviews;"
+
+    movieids = queryUpdate2(query)
+    if not movieids:
+        raise TypeError
+    for record in movieids:
+        query = "select count(*) from reviews where movieid = " + str(record[0])
+        value = queryUpdate2(query)[0]
+        movie_record.append((record[0], value[0]))
+    max = movie_record[0]
+    for record in movie_record :
+        if record[1] > max[1]:
+            max = record
+    query = "select * from movies where id = " + str(max[0])
+    result = queryUpdate2(query)
+    print("The Movie \""+ result[0][1] + "\" in year " + str(result[0][2]) + "has the most review.")
 
 bestMovie()
+movie_with_most_review()
+

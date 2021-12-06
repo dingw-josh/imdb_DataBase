@@ -89,7 +89,7 @@ def popularMovie():
             max = record
     query = "select * from movies where id = " + str(max[0])
     result = queryUpdate2(query)
-    print("Movie \"" + result[0][1] + "\" surveyed most")
+    print("The Movie \"" + result[0][1] + "\" have been surveyed the most.")
 
 popularMovie()
 

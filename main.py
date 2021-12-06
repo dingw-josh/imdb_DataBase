@@ -18,3 +18,5 @@ import subprocess
 
 for lp in range(10):
     subprocess.call(['python3', 'createUser.py'])
+
+os.system('python3 IntegrityCheck.py')

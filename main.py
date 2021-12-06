@@ -17,14 +17,14 @@ from random import randrange
 import subprocess
 from connection import getConnection, commit, queryUpdate, queryUpdate2
 
-query = "select userid from users order by random() limit 20;"
+query = "select userid from users order by random() limit 100;"
 results = queryUpdate2(query)
 # for record in results:
 #     for i in range(1,10):
 #         if record == results[i][0]:
 #             print("YES")
 
-for lp in range(10):
+for lp in range(100):
     subprocess.call(['python3', 'createUser.py' , str(results[lp][0])])
 
 os.system('python3 IntegrityCheck.py')

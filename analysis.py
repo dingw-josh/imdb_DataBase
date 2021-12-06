@@ -71,3 +71,26 @@ def movie_with_most_review():
 bestMovie()
 movie_with_most_review()
 
+def popularMovie():
+
+    surveyRecord =[]
+    query = "select distinct movieid from surveys;"
+    movieids = queryUpdate2(query)
+    if not movieids:
+        raise TypeError
+    for record in movieids:
+        query = "select count(*) from surveys where movieid = " + str(record[0])
+        value = queryUpdate2(query)[0]
+        surveyRecord.append((record[0],value[0]))
+    print(surveyRecord)
+    max = surveyRecord[0]
+    for record in surveyRecord:
+        if record[1] > max[1]:
+            max = record
+    query = "select * from movies where id = " + str(max[0])
+    result = queryUpdate2(query)
+    print("Movie id "+str(result[0][0]) + " Movie name" + result[0][1] + " surveyed most")
+
+popularMovie()
+
+

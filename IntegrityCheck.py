@@ -19,7 +19,7 @@ for x in f:
                                   + comment + " and userid = " + user + ");")
             if not result[0][0]:
                 file.write(str(datetime.datetime.now()) + " ERROR, User " +
-                           user + "failed to create comment " + comment + "in table comments.\n")
+                           user + " failed to create comment " + comment + "in table comments.\n")
             else:
                 file.write(str(datetime.datetime.now()) + " OK, user "+user+" created comment "+comment + "\n")
 
@@ -32,19 +32,39 @@ for x in f:
                                   + comment + " and userid = " + user + ");")
             if not result[0][0]:
                 file.write(str(datetime.datetime.now()) + " ERROR, User " +
-                           user + "failed to respond to invitation, because there is no created comment " + comment + "in table comments.\n")
+                           user + " failed to respond to invitation, because there is no created comment " + comment + "in table comments.\n")
             else:
-                file.write(str(datetime.datetime.now()) + " OK, user "+user+" successfully created comment "+comment + "\n")
+                file.write(str(datetime.datetime.now()) + " OK, user "+user+" successfully responded to invitation by creating comment "+comment + "\n")
+
+        if lines[2] == 'Survey:':
+            # check
+            print("")
+
     if len(lines) == 9:
         if lines[2] == 'Review:':
+            # check if the user created a review in table review_user
             user = lines[4]
             review = lines[8]
             result = queryUpdate2("SELECT EXISTS (Select * from review_user where reviewid = " + review
                                   + " and userid = " + user +");")
             if not result[0][0]:
                 file.write(str(datetime.datetime.now()) + " ERROR, User " +
-                           user + "failed to create a review " + review + "in table reviews.\n")
+                           user + " failed to create a review " + review + "in table reviews.\n")
             else:
                 file.write(str(datetime.datetime.now()) + " OK, user "+user+" successfully created a review "+review + "\n")
+    if len(lines) == 15:
+        if lines[2] == 'Invite:':
+            user = lines[8]
+            review = lines[14]
+            result = queryUpdate2("SELECT EXISTS (Select * from review_comment " +
+                                  "where commentid = " +
+                                  "(Select commentid from comments where userid = " + user + ") and reviewid = " + review
+             + ");")
+            if not result[0][0]:
+                file.write(str(datetime.datetime.now()) + " ERROR, User " +
+                           lines[5] + " failed to invite user "+ user + " to create a comment on review "+ review +".\n")
+            else:
+                file.write(str(datetime.datetime.now()) + " OK, user "+user+" was invited to created a comment on review "+review + "\n")
+
 
 f.close()

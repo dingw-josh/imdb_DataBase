@@ -29,8 +29,9 @@ elif results[0][3] == "User":
 else:
     user = General(results[0][0], results[0][1],results[0][2])
 
+fun_list = [user.makeReview(),user.makeComments(),user.inviteUser(),user.inviteUserSurvey()]
+
 if user.userType == "Hired":
-    fun_list = [user.makeReview(),user.makeComments(),user.inviteUser(),user.inviteUserSurvey()]
     # rand = randrange(1,5)
     # if rand == 1:
     #     user.makeReview()
@@ -52,4 +53,5 @@ if user.userType == "User":
         user.inviteUserSurvey()
 
 if user.userType == "General":
-    user.makeComments()
+    #user.makeComments()
+    random.choice(fun_list)

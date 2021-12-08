@@ -11,6 +11,14 @@ class People:
         self.firstName = firstName
         self.lastName = lastName
         self.userType = userType
+
+    def inviteUser(self):
+        pass
+    def inviteUserSurvey(self):
+        pass
+    def makeReview(self):
+        pass
+
     def makeComments(self):
         query = "SELECT reviewid FROM reviews order by random() limit 1"
         results = queryUpdate2(query)
@@ -153,7 +161,15 @@ class User(People):
 class General(People):
     def __init__(self, id:int, firstName: str, lastName: str):
         super().__init__(id,firstName, lastName, "General")
-        
+
+    def makeReview(self):
+        pass
+
+    def inviteUser(self):
+        pass
+    def inviteUserSurvey(self):
+        pass
+
     def invitedComment(self,reviewID):
         comment = Comment(self.userID, reviewID)
 

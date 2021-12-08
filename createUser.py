@@ -31,27 +31,27 @@ else:
 
 fun_list = [user.makeReview(),user.makeComments(),user.inviteUser(),user.inviteUserSurvey()]
 
-if user.userType == "Hired":
-    # rand = randrange(1,5)
-    # if rand == 1:
-    #     user.makeReview()
-    # if rand == 2:
-    #     user.makeComments()
-    # if rand == 3:
-    #     user.inviteUser()
-    # if rand == 4:
-    #     user.inviteUserSurvey()
-    random.choice(fun_list)
-
-if user.userType == "User":
-    rand = randrange(1,4)
-    if rand == 1:
-        user.makeReview()
-    if rand == 2:
-        user.makeComments()
-    if rand == 3:
-        user.inviteUserSurvey()
-
-if user.userType == "General":
-    #user.makeComments()
-    random.choice(fun_list)
+# if user.userType == "Hired":
+#     # rand = randrange(1,5)
+#     # if rand == 1:
+#     #     user.makeReview()
+#     # if rand == 2:
+#     #     user.makeComments()
+#     # if rand == 3:
+#     #     user.inviteUser()
+#     # if rand == 4:
+#     #     user.inviteUserSurvey()
+#     random.choice(fun_list)
+#
+# if user.userType == "User":
+#     rand = randrange(1,4)
+#     if rand == 1:
+#         user.makeReview()
+#     if rand == 2:
+#         user.makeComments()
+#     if rand == 3:
+#         user.inviteUserSurvey()
+#
+# if user.userType == "General":
+#     #user.makeComments()
+random.choice(fun_list)
